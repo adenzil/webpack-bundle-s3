@@ -5,4 +5,4 @@ Steps :
 - Checkout project
 - Run npm install
 - Create A S3 bucket and a AWS user with S3 Full access, and enter credentials to .env
-- Run npm build and use the URL in the index.html file.
+- Run npm build and use the URL in the index.html file
