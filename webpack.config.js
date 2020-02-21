@@ -1,16 +1,18 @@
 const path = require('path');
 var S3Plugin = require('webpack-s3-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	entry: './src/index.js',
 	output: {
-		filename: 'main.js',
-		path: path.resolve(__dirname, 'dist'),
+		filename: 'main.[contenthash].js',
+		publicPath: 'https://webpack-bundle.s3.ap-south-1.amazonaws.com/',
 	},
 	devServer: {
 		contentBase: './dist',
 		hot: true,
-    },
+	},
 	module: {
 		rules: [
 			{
@@ -23,10 +25,11 @@ module.exports = {
 					// Compiles Sass to CSS
 					'sass-loader',
 				],
-			},
+			}
 		],
 	},
     plugins: [
+    	new CleanWebpackPlugin(),
 		new S3Plugin({
 		// Only upload css and js
 			include: /.*\.(css|js)/,
@@ -38,6 +41,7 @@ module.exports = {
 			s3UploadOptions: {
 				Bucket: 'webpack-bundle'
 			}
-		})
+		}),
+		new HtmlWebpackPlugin()
 	]
 };
